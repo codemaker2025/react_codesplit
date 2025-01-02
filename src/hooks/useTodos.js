@@ -1,21 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function useTodos() {
   const [todos, setTodos] = useState([]);
 
+  // Load todos from localStorage when the component first mounts
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
+  }, []);
+
+  // Update localStorage whenever todos change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   // Function to add a todo
   function addTodo(todo) {
     console.log(todo);
-    
+
     if (todo.text === "") {
-      console.error("FIELD IS EMPTY")
-      return "empty"
+      console.error("FIELD IS EMPTY");
+      return "empty";
     }
 
-    const status = todos.some((ele) => ele.text === todo.text)
+    const status = todos.some((ele) => ele.text === todo.text);
     if (status) {
-      console.error("DUPLICATE TEXT DETECTED")
-      return "duplicate"
+      console.error("DUPLICATE TEXT DETECTED");
+      return "duplicate";
     }
 
     if (todo.text.trim()) {
@@ -23,31 +36,24 @@ export default function useTodos() {
         ...prevTodos,
         { id: Date.now(), text: todo.text.trim() },
       ]);
-      return "success"
+      return "success";
     }
   }
 
-  // Function to remove a todo
+  // Function to remove a todo and update localStorage
   function removeTodo(id) {
-    console.log(id, "id");
-    console.log("Current todos:", todos);
+    console.log("removeTodo(useTodos hook)");
 
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-  }
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
 
-  // Function to edit a todo
-  function editTodo(id, newText) {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, text: newText.trim() } : todo
-      )
-    );
+    // Remove the todo from localStorage
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
 
   return {
     todos,
     addTodo,
     removeTodo,
-    editTodo,
   };
 }

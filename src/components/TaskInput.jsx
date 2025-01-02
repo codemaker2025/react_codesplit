@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
+import WarningModal from "./Alert/WarningModal"
 
 export default function TaskInput({ onAddTask }) {
   const [item, setItem] = useState({
@@ -10,15 +11,13 @@ export default function TaskInput({ onAddTask }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (item.text.trim()) {
       onAddTask(item);
       setItem({
         id: "",
         text: "",
       });
-    }
   }
-  console.log("TaskInput");
+  console.log("TaskInput Rendered");
 
   return (
     <form onSubmit={handleSubmit}>
@@ -32,10 +31,11 @@ export default function TaskInput({ onAddTask }) {
         }
         placeholder="Add a task"
       />
-      {/* Bootstrap button triggers the form submission */}
       <Button type="submit" variant="primary">
         Add Task
       </Button>
+      <WarningModal />
+
     </form>
   );
 }
