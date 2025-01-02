@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import Button from 'react-bootstrap/Button';
 
 export default function TaskInput({ onAddTask }) {
   const [item, setItem] = useState({
@@ -18,7 +19,7 @@ export default function TaskInput({ onAddTask }) {
     }
   }
   console.log("TaskInput");
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -31,7 +32,10 @@ export default function TaskInput({ onAddTask }) {
         }
         placeholder="Add a task"
       />
-      <button type="submit">Submit</button>
+      {/* Bootstrap button triggers the form submission */}
+      <Button type="submit" variant="primary">
+        Add Task
+      </Button>
     </form>
   );
 }

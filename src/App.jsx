@@ -1,5 +1,5 @@
-import Home from "./components/Home";
 import Task from "./components/Task";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
