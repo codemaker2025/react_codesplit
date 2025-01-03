@@ -11,6 +11,8 @@ export default function Task() {
   const { isVisible, openModal, closeModal } = useModal()
 
   function handleAddTask(newTask) {
+    console.log("handleAddTask");
+    
     const status = addTodo(newTask)
     if (status === "empty" || status === "duplicate") {
       setModalMessage(status === "empty" ? "Task cannot be empty!" : "Task already exists!")
